@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details | Ecopoint</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/styles/partials.css">
+</head>
+<body>
+    <%- include('../partials/navbar') %>
+    
+    <div class="wrapper">
+        <main class="container mt-5">
+            <h1 class="text-center mb-4">Product Details</h1>
+            <div class="card mb-3 shadow-sm">
+                <div class="row no-gutters">
+                    <div class="col-md-4">
+                        <% if (product.productImage) { %>
+                            <img src="/uploaded_img/<%= product.productImage %>" class="card-img" alt="<%= product.productName %>" height="300" width="250">
+                        <% } else { %>
+                            <img src="/images/default-product.png" class="card-img" alt="Default Image">
+                        <% } %>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title" id="productName"><%= product.productName %></h5>
+                            <p class="card-text"><strong>Category:</strong> <%= product.category %></p>
+                            <p class="card-text points"><strong>Points:</strong> <%= product.points %></p>
+                            <p class="col-md-8">
+                                <img id="qrImage-<%= product._id %>" src="<%= qrCode%>" alt="QR Code">
+                            <p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <%- include('../partials/footer') %>
+</body>
+</html>

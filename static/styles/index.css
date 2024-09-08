@@ -1,0 +1,88 @@
+/* Custom Theme Colors */
+:root {
+    --primary-color: #333;
+    /* Dark Gray */
+    --secondary-color: #28a745;
+    /* Green */
+    --background-color: #f8f9fa;
+    /* Light Gray */
+    --text-color: #333;
+}
+
+/* Body Styling */
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-family: 'Arial', sans-serif;
+}
+
+/* Main Container */
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    margin: 5px;
+}
+
+/* Registration Form Styling */
+.registration-form {
+    max-width: 500px;
+    width: 100%;
+    padding: 30px;
+}
+
+.registration-form h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: var(--primary-color);
+    text-align: center;
+    font-weight: 600;
+}
+
+/* Form Group Styling */
+.form-group label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: var(--text-color);
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 16px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.form-group input:focus {
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 5px rgba(40, 167, 69, 0.2);
+    /* Green shadow on focus */
+    outline: none;
+}
+
+/* Button Styling */
+.btn {
+
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    transition: background-color 0.3s;
+}
+
+.btn:hover {
+    background-color: #222;
+    /* Slightly darker gray for hover effect */
+}
+
+.points {
+    display: flex
+}

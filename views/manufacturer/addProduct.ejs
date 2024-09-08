@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Product | Ecopoint</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/styles/styles.css">
+</head>
+<body>
+    <div class="wrapper">
+        <%- include('../partials/navbar') %>
+        <div class="main-content">
+            <% if (error) { %>
+                <div class="error"><span><%= error %></span> <i class="fas fa-times" onclick="this.parentElement.style.display = 'none';"></i></div>
+            <% } %>
+
+            <% if (message) { %>
+                <div class="message"><span><%= message %></span> <i class="fas fa-times" onclick="this.parentElement.style.display = 'none';"></i></div>
+            <% } %>
+
+            <div class="container mt-5">
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <div class="card">
+                            <div class="card-header bg-dark text-white">
+                                <h4 class="mb-0">Add New Product</h4>
+                            </div>
+                            <div class="card-body">
+                                <form action="/manufacturer/addproduct" method="POST" enctype="multipart/form-data">
+                                    <div class="form-group">
+                                        <label for="productName">Product Name</label>
+                                        <input type="text" class="form-control" id="productName" name="productName" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="category">Category</label>
+                                        <select class="form-control" id="category" name="category" required>
+                                            <option value="Plastics">Plastics</option>
+                                            <option value="Paper">Paper</option>
+                                            <option value="Glass">Glass</option>
+                                            <option value="Metals">Metals</option>
+                                            <option value="Electronics">Electronics</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="productImage">Product Image</label>
+                                        <input type="file" id="productImage" name="productImage" class="form-control-file" accept="image/png, image/jpg, image/jpeg" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="points">Points</label>
+                                        <input type="number" class="form-control" id="points" name="points" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-dark btn-block mt-4">Register Product</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include('../partials/footer') %>
+</body>
+</html>

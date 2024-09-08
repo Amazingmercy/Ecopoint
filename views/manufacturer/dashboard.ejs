@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manufacturer Dashboard | Ecopoint</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/styles/styles.css">
+</head>
+
+<body>
+
+    <%- include('../partials/navbar') %>
+    <div class="container-fluid">
+        <div class="row">
+
+            <!-- Main Content -->
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Dashboard</h1>
+                </div>
+
+                <!-- Dashboard Overview -->
+                <div class="row">
+                    <div class="col-md-3 card-container">
+                        <div class="card text-white bg-success mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">Total Products</h5>
+                                <p class="card-text"><%= totalProducts %></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 card-container">
+                        <div class="card text-white bg-danger mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">Total Collectors</h5>
+                                <p class="card-text"><%= totalCollectors %></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 card-container">
+                        <div class="card text-white bg-warning mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">Total Contributors</h5>
+                                <p class="card-text"><%= totalContributors %></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 card-container">
+                        <div class="card text-white bg-primary mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">Points Distributed</h5>
+                                <p class="card-text"><%= pointsDistributed %></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <%- include('../partials/footer') %>
+</body>
+
+</html>

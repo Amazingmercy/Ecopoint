@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collector Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/styles/styles.css">
+    <link rel="stylesheet" href="/styles/partials.css">
+    <style>
+        
+    </style>
+</head>
+<body>
+    <%- include('../partials/nav') %>
+    <div id="scan-message" class="alert alert-info mt-4" style="display: none;"></div>
+
+    <div class="container-fluid collector-app">
+
+        <!-- Form to submit email and scan QR code -->
+        <form action="/" id="collectorForm" class="collector-form" method="post">
+            <div class="form-group">
+                <label for="contributorEmail">Contributor Email</label>
+                <input type="email" class="form-control" id="contributorEmail" name="contributorEmail" required>
+            </div>
+
+            <div class="camera-container">
+                <h3>Scan QR Code</h3>
+                <video id="preview"></video>
+            </div>
+
+            <input type="hidden" id="productQrCode" name="productQrCode" required>
+            <button type="submit" class="btn btn-primary btn-block mt-3">Submit</button>
+        </form>
+
+        <div id="points-container" class="points-container"></div>
+    </div>
+
+    <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    
+    <script>
+        // Define the scanProduct function
+const scanProduct = async () => {
+    try {
+    // Initialize the QR code scanner
+    let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
+
+    // Event listener for scan event
+    scanner.addListener('scan', (content) => {
+        document.getElementById('productQrCode').value = content;  // Set the scanned QR code to hidden input
+
+        // Display the scanned message on the screen
+        const scanMessage = document.getElementById('scan-message');
+        scanMessage.textContent = "QR Code Scanned sucessfully ";
+        scanMessage.style.display = 'block';  // Make the message visible
+    });
+
+    // Fetch available cameras
+    const cameras = await Instascan.Camera.getCameras();
+    if (cameras.length > 0) {
+        scanner.start(cameras[0]);  // Start scanning with the first available camera
+    } else {
+        console.error('No cameras found.');
+        const scanMessage = document.getElementById('scan-message');
+        scanMessage.textContent = 'No cameras found. Please ensure camera permissions are granted.';
+        scanMessage.style.display = 'block';  // Display error message
+    }
+} catch (error) {
+    console.error('Error initializing scanner:', error);
+    const scanMessage = document.getElementById('scan-message');
+    scanMessage.textContent = 'An error occurred while initializing the QR code scanner.';
+    scanMessage.style.display = 'block';  // Display error message
+}
+
+};
+
+// Handle form submission via Axios
+const handleFormSubmission = async () => {
+    try {
+        const contributorEmail = document.getElementById('contributorEmail').value;
+        const productQrCode = document.getElementById('productQrCode').value;
+
+        const response = await axios.post('/collector/scan', {
+            contributorEmail,
+            productQrCode
+        });
+
+        const data = response.data;
+
+        if (data.message) {
+            // Display success message
+            const messageContainer = document.getElementById('scan-message');
+            messageContainer.classList.remove('d-none');
+            messageContainer.textContent = data.message;
+            messageContainer.style.display = 'block';
+
+            if(data.manufacturer) {
+                // Display updated points for the manufacturer
+            const pointsContainer = document.getElementById('points-container');
+            pointsContainer.innerHTML = `
+                <p>Manufacturer: ${data.manufacturer}</p>
+                <p>Product: ${data.product}<p>
+                <p>Total Points: ${data.totalPointsFromManufacturer}</p>
+            `;
+
+            }
+
+            
+        }
+    } catch (error) {
+        console.log('Error initializing scanner:', error);
+    const scanMessage = document.getElementById('scan-message');
+    scanMessage.textContent = 'An error occurred while submitting the QR code.';
+    scanMessage.style.display = 'block';  // Display error message
+    }
+};
+
+// Attach event listeners
+document.getElementById('collectorForm').addEventListener('submit', (e) => {
+    e.preventDefault();  // Prevent form from submitting normally
+    handleFormSubmission();  // Call the async function to handle submission
+});
+
+// Initialize the QR scanner when the page loads
+window.onload = () => {
+    scanProduct();
+};
+
+    </script>
+    <%- include('../partials/footer') %>
+</body>
+</html>

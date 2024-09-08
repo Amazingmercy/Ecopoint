@@ -1,0 +1,241 @@
+
+/* styles for all products page */
+.product-container {
+    max-width: 900px;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    margin: auto;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    display: flex;
+    flex-direction: column;
+    flex: 1 0 auto;
+    min-height: 450px;
+    max-height: 600px;
+}
+.display-product-table table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    
+}
+.display-product-table th, .display-product-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+.display-product-table th {
+    background-color: #333;
+    color: #fff;
+}
+.display-product-table td img {
+    border-radius: 4px;
+}
+.display-product-table .delete-btn, .display-product-table .option-btn, .display-product-table .qrcode-btn{
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    color: #fff;
+}
+.display-product-table .delete-btn {
+    background-color: #e74c3c;
+    margin: 2px;
+}
+.display-product-table .option-btn {
+    background-color: #f39c12;
+    margin: 2px;
+}
+.display-product-table .qrcode-btn {
+    background-color: #3e7bee;
+    margin: 2px;
+}
+.edit-form-container, .delete-form-container, .qrcode-form-container {
+    display: none;
+    background-color: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}
+.edit-form-container form, .delete-form-container form, .qrcode-form-container form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 500px;
+}
+.edit-form-container input[type="text"], .edit-form-container input[type="number"], .edit-form-container input[type="file"],
+.delete-form-container input[type="submit"], .delete-form-container input[type="button"] , .qrcode-form-container input[type="number"],
+.qrcode-form-container input[type="submit"], .qrcode-form-container input[type="button"]{
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+.edit-form-container input[type="submit"], .delete-form-container input[type="submit"] {
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+}
+.edit-form-container input[type="button"], .delete-form-container input[type="button"] {
+    background-color: #e74c3c;
+    color: #fff;
+    border: none;
+}
+.error, .message {
+    padding: 5px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+}
+.error {
+    background-color: #e74c3c;
+    color: #fff;
+}
+.message {
+    background-color: #2ecc71;
+    color: #fff;
+}
+.error i, .message i {
+    cursor: pointer;
+}
+.qrcode-form-container img {
+    width: 150px;
+    height: 150px;
+    margin-top: 10px;
+}
+.card {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    min-height: 200px;
+}
+
+.card-container {
+    min-height: 500px;
+}
+
+.search-bar {
+    display: flex;
+}
+
+/* COLLECTOR DASHBOARD */
+.collector-app {
+    margin-top: 50px; /* Adjust for navbar height */
+    padding: 20px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+/* Camera container */
+.camera-container {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+.camera-container h3 {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.camera-container video {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+}
+
+/* Form Styling */
+.collector-form .form-group {
+    margin-bottom: 20px;
+}
+
+.collector-form label {
+    font-weight: 600;
+    color: #555;
+}
+
+.collector-form .form-control {
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.collector-form .btn {
+    background-color: #303131;
+    border: none;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 6px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.collector-form .btn:hover {
+    background-color: #303131;
+}
+
+/* Alert and Points container */
+#message-container {
+    display: none;
+    background-color: #28a745;
+    color: #fff;
+    padding: 15px;
+    margin-top: 20px;
+    border-radius: 6px;
+    font-size: 16px;
+    text-align: center;
+}
+
+#points-container {
+    margin-top: 20px;
+    font-size: 18px;
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 6px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .collector-app {
+        padding: 15px;
+    }
+    .camera-container video {
+        width: 100%;
+    }
+    .collector-form .btn {
+        width: 100%;
+    }
+}
+/* Hide the bank details form initially */
+.hidden {
+    display: none;
+}
+
+.visible {
+    display: block;
+}
+
+
+
+

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ecopoint | Home</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/styles/landing.css">
+</head>
+
+<body>
+    <%- include('partials/header') %>
+
+    <!-- Search Section -->
+    <section id="search-section" class="search-section py-5 bg-light text-center">
+        <div class="container">
+            <h3>Find Your Submissions</h3>
+            <form action="/contributor/search" method="post" class="form-inline justify-content-center">
+                <input type="email" name="email" class="form-control mr-2" placeholder="Enter your email" required>
+                <button type="submit" class="btn btn-dark">Search</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Hero Section -->
+    <section class="hero-section text-white text-center">
+        <div class="container">
+            <h1>Welcome to Ecopoint</h1>
+            <p>Your Partner in Recycling and Sustainability</p>
+            <a href="#about" class="btn btn-outline-light">Learn More</a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <img src="/images/recycling.jpg" alt="Recycling" class="img-fluid rounded shadow">
+                </div>
+                <div class="col-md-6">
+                    <h2>About Ecopoint</h2>
+                    <p>Ecopoint is dedicated to revolutionizing the recycling industry through innovative technology and community engagement. Our platform is designed to facilitate easy and efficient recycling processes, enabling individuals and businesses to contribute towards a more sustainable future.</p>
+                    <p>By collaborating with manufacturers, we aim to simplify waste management and promote the responsible disposal of recyclable materials. Our unique reward system motivates users to participate actively in recycling efforts, offering tangible benefits for their contributions.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Manufacturers & Collectors Section -->
+    <section id="users-section" class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-5">Our Registered Manufacturers and Collectors</h2>
+            <div class="row">
+                <!-- Manufacturers List -->
+                <div class="col-md-6">
+                    <h4 class="text-center mb-3">Manufacturers</h4>
+                    <ul class="list-group input">
+                        <% manufacturers.forEach(manufacturer => { %>
+                            <li class="list-group-item">
+                                <strong><%= manufacturer.name %></strong> - <%= manufacturer.address %> 
+                                <strong>Threshold</strong> 100points
+                            </li>
+                        <% }) %>
+                    </ul>
+                </div>
+
+                <!-- Collectors List -->
+                <div class="col-md-6">
+                    <h4 class="text-center mb-3">Collectors</h4>
+                    <ul class="list-group input">
+                        <% collectors.forEach(collector => { %>
+                            <li class="list-group-item">
+                                <strong><%= collector.name %></strong> - <%= collector.email %>
+                            </li>
+                        <% }) %>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section py-5 bg-light">
+        <div class="container">
+            <h2 class="text-center mb-4">Contact Us</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <form action="#" method="POST">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-dark">Send Message</button>
+                    </form>
+                </div>
+                <div class="col-md-6">
+                    <h4>Our Address</h4>
+                    <p>123 Eco Street<br>Gandu, Lafia<br>Phone: (234) 908-1513-958</p>
+                    <h4>Email</h4>
+                    <p>support@ecopoints.com</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <%- include('partials/footer') %>
+</body>
+
+</html>

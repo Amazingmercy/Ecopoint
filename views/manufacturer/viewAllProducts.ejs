@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products | Ecopoints</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/styles/styles.css">
+</head>
+<body>
+    <div class="wrapper">
+        <%- include('../partials/navbar') %>
+        <div class="main-content">
+            <% if (error) { %>
+                <div class="error"><span><%= error %></span> <i class="fas fa-times" onclick="this.parentElement.style.display = 'none';"></i></div>
+            <% } %>
+
+            <% if (message) { %>
+                <div class="message"><span><%= message %></span> <i class="fas fa-times" onclick="this.parentElement.style.display = 'none';"></i></div>
+            <% } %>
+
+            <div class="container mt-5">
+                <section class="display-product-table">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Product Image</th>
+                                <th>Product Name</th>
+                                <th>Product Category</th>
+                                <th>Product Point</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% if (products.length > 0) { %>
+                                <% products.forEach(function(product) { %>
+                                    <tr>
+                                        <td><img src="/uploaded_img/<%= product.productImage %>" height="50" alt="<%= product.name %> image"></td>
+                                        <td id="productName"><%= product.productName %></td>
+                                        <td><%= product.category %></td>
+                                        <td id="points"><%= product.points %></td>
+                                        <td>
+                                            <a href="#" class="delete-btn" onclick="showDeleteForm('<%= product._id %>')"> <i class="fas fa-trash"></i> delete </a>
+                                            <a href="#" class="option-btn" onclick="showEditForm('<%= product._id %>', '<%= product.name %>', '<%= product.category %>', '<%= product.productImage %>', '<%= product.points %>')"> <i class="fas fa-edit"></i> update </a>
+                                            <a href="#" class="qrcode-btn" onclick="showQrCodeForm('<%= product._id %>', '<%= product.points %>', '<%= product.productName %>')"> <i class="fas fa-qrcode"></i> generate </a>
+                                        </td>
+                                    </tr>
+                                <% }); %>
+                            <% } else { %>
+                                <tr>
+                                    <td colspan="5"><div class='empty'>No product added</div></td>
+                                </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </section>
+
+                <% products.forEach(function(product) { %>
+                    <section class="edit-form-container" id="edit-form-container-<%= product._id %>">
+                        <form action='/manufacturer/updateProduct/<%= product._id %>' method="post" enctype="multipart/form-data">
+                            <img src="/uploaded_img/<%= product.productImage %>" height="50" alt="<%= product.name %> image" id="edit-preview-image-<%= product._id %>">
+                            <input type="hidden" name="userId" value="<%= user._id %>" id="update_p_id-<%= product._id %>">
+                            <input type="text" class="form-control" name="productName" value="<%= product.productName %>" id="productName-<%= product._id %>">
+                            <input type="number" min="0" class="form-control" required name="points" id="update_p_points-<%= product._id %>" value="<%= product.points %>">
+                            <input type="text" class="form-control" required name="category" id="update_p_category-<%= product._id %>" value="<%= product.category %>">
+                            <input type="file" class="form-control-file" name="productImage" accept="image/png, image/jpg, image/jpeg">
+                            <input type="submit" value="Update the product" class="btn btn-primary mt-3">
+                            <input type="button" value="Cancel" class="btn btn-secondary" onclick="hideEditForm('<%= product._id %>');">
+                        </form>
+                    </section>
+
+                    <section class="delete-form-container" id="delete-form-container-<%= product._id %>">
+                        <form action="/manufacturer/deleteProduct/<%= product._id %>" method="post">
+                            <input type="submit" value="Delete the product" class="btn btn-danger">
+                            <input type="button" value="Cancel" class="btn btn-secondary" onclick="hideDeleteForm('<%= product._id %>');">
+                        </form>
+                    </section>
+
+                    <section class="qrcode-form-container" id="qrcode-form-container-<%= product._id %>">
+                        <form action="/manufacturer/product/<%= product._id%>" method="post">
+                            <input type="hidden" name="userId" value="<%= user._id %>" id="update_p_id-<%= product._id %>">
+                            <input type="text" class="form-control" name="productName" value="<%= product.productName %>" id="productName-<%= product._id %>">
+                            <input type="number" min="1" class="form-control" name="points" value="<%= product.points %>" id="points-<%= product._id %>">
+                            <input type="submit" value="Generate QRcode" class="btn btn-primary mt-3">
+                            <input type="button" value="Cancel" class="btn btn-secondary" onclick="hideQrForm('<%= product._id %>');">
+                        </form>
+                    </section>            
+                <% }); %>
+            </div>
+        </div>
+    </div>
+
+    <%- include('../partials/footer') %>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="../js/script.js"></script>
+</body>
+</html>

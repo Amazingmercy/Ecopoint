@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submissions</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/styles/landing.css">
+    <link rel="stylesheet" href="/styles/partials.css">
+</head>
+
+<body>
+    <header class="header">
+        <h1>Ecopoint</h1>
+        <nav class="nav">
+          <a href="/">Home</a>
+        </nav>
+      </header>
+
+    <div class="container mt-5">
+        <% if (contributor) { %>
+            <h2 class="text-center">Points Accumulated for <%= contributor.name %></h2>
+        <% } %>
+        
+
+        <% if (message) { %>
+            <div class="alert alert-warning text-center"><%= message %></div>
+        <% } %>
+
+        <% if (submissions.length > 0) { %>
+            <table class="table table-bordered mt-4">
+                <thead>
+                    <tr>
+                        <th>Manufacturer Name</th>
+                        <th>Total Points</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% submissions.forEach(submission => { %>
+                        <tr>
+                            <td><%= submission.manufacturerName %></td>
+                            <td><%= submission.totalPoints %></td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        <% } %>
+    </div>
+
+    <%- include('../partials/footer') %>
+</body>
+
+</html>
