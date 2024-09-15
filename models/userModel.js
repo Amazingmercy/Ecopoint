@@ -18,6 +18,10 @@ const userSchema = new Schema({
         maxlength: 50,
         trim: true,
     },
+    paymentThreshold: {
+        type: Number,
+        default:0
+    },
     password: {
         type: String,
         maxlength: 255,

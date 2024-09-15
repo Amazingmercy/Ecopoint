@@ -2,6 +2,9 @@ const Product = require('../models/productModel')
 const User = require('../models/userModel')
 const Submission = require('../models/submissionModel')
 const Points = require('../models/pointsModel')
+const secretKey = process.env.JWT_SECRET_KEY;
+const jwt = require('jsonwebtoken')
+
 
 
 
@@ -40,11 +43,12 @@ const getProducts = async (req, res) => {
 
 const editProfile = async (req, res) => {
     const userId = req.params.id
+
     const { bankName, accountNumber, accountName } = req.body;
 
     try {
 
-        const user = await User.findOneAndUpdate(
+        const newUser = await User.findOneAndUpdate(
             { _id: userId, role: { $in: ['contributor', 'collector'] } },
             {
                 $set: {
@@ -58,19 +62,35 @@ const editProfile = async (req, res) => {
             { new: true }
         );
 
-        const manufacturers = await User.find({ role: 'manufacturer' }).select('name email');
-        const collectors = await User.find({ role: 'collector' }).select('name email');
+        const manufacturers = await User.find({ role: 'manufacturer' }).select('name');
+        const collectors = await User.find({ role: 'collector' }).select('name address');
 
-        if (user.role == 'contributor') {
+        //To send Token when user logs in
+        const payload = {
+            userId: newUser._id,
+            userEmail: newUser.email,
+            userRole: newUser.role,
+          };
+        
+          
+          const token =  jwt.sign(payload, secretKey, { expiresIn: '100m' });
+          res.cookie('token', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            maxAge: 24 * 60 * 60 * 1000 // 24 hours
+          });
+
+        if (newUser.role == 'contributor') {
             // Render the landing page with the manufacturers and collectors data
             res.render('landing', {
                 manufacturers,
                 collectors,
                 error: "",
+                newUser,
                 message: "Bank details updated successfully!"
             });
         } else {
-            res.render('collector/dashboard', { message: 'Bank details updated successfully!' });
+            res.render('collector/dashboard', { message: 'Bank details updated successfully!', token , newUser});
         }
     } catch (error) {
         console.log(error)

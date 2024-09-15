@@ -59,8 +59,8 @@
                     <ul class="list-group input">
                         <% manufacturers.forEach(manufacturer => { %>
                             <li class="list-group-item">
-                                <strong><%= manufacturer.name %></strong> - <%= manufacturer.address %> 
-                                <strong>Threshold</strong> 100points
+                                <strong><%= manufacturer.name %></strong> -  <strong> <%= manufacturer.address %></strong> 
+                                <strong>Threshold:</strong> - <strong> <%= manufacturer.paymentThreshold %></strong> 
                             </li>
                         <% }) %>
                     </ul>
@@ -72,7 +72,7 @@
                     <ul class="list-group input">
                         <% collectors.forEach(collector => { %>
                             <li class="list-group-item">
-                                <strong><%= collector.name %></strong> - <%= collector.email %>
+                                <strong><%= collector.name %></strong> - <%= collector.address %>
                             </li>
                         <% }) %>
                     </ul>

@@ -2,6 +2,10 @@ const Product = require('../models/productModel')
 const User = require('../models/userModel')
 const Points = require('../models/pointsModel');
 const mongoose = require('mongoose');
+const fs = require('fs');
+const path = require('path');
+const { pipeline } = require('stream/promises'); // Use pipeline from the stream module
+const axios = require('axios')
 
 
 const viewDashboard = async (req, res) => {
@@ -75,6 +79,7 @@ const viewAddProduct = async (req, res) => {
 
 const addProduct = async (req, res) => {
     const user = await User.findOne({ email: req.user.email });
+    console.log(user)
     const userId = user._id;
 
     if (req.user.role !== 'manufacturer') {
@@ -184,6 +189,102 @@ const deleteProduct = async (req, res) => {
 };
 
 
+const downloadQRcode = async (req, res) => {
+    try {
+        const productId = req.params.id;
+
+        // Generate the QR code URL
+        const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${productId}`;
+
+        // Path to save the QR code temporarily
+        const qrCodeFilePath = path.join(__dirname, '..', 'static', 'qrCodes', `${productId}-qrcode.png`);
+
+        // Download the QR code and save it locally using stream pipeline
+        const response = await axios({
+            url: qrCodeUrl,
+            method: 'GET',
+            responseType: 'stream'
+        });
+
+        // Use the pipeline method to handle stream with async/await
+        await pipeline(response.data, fs.createWriteStream(qrCodeFilePath));
+
+        // Once the file is saved, send it to the client for download
+        res.download(qrCodeFilePath, `${productId}-qrcode.png`, async (err) => {
+            if (err) {
+                console.log('Error downloading QR code:', err);
+                return res.status(500).send('Error downloading QR code');
+            }
+
+            // Optionally, delete the file after it's been downloaded
+            try {
+                await fs.promises.unlink(qrCodeFilePath);
+            } catch (unlinkErr) {
+                console.log('Error deleting QR code file:', unlinkErr);
+            }
+        });
+
+    } catch (error) {
+        console.error('Error generating QR code download:', error);
+        res.status(500).json({ message: 'Error generating QR code download' });
+    }
+};
+
+
+// Render the form to set the threshold
+const getThresholdForm = async (req, res) => {
+    try {
+        const user = await User.findOne({ email: req.user.email });
+        const threshold = user.paymentThreshold || 0;  // Fetch existing threshold if available
+        res.render('manufacturer/settings', { user, threshold, message: "", error: "" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).render('manufacturer/settings', { user: req.user, threshold: 0, message: "", error: "Error loading form" });
+    }
+};
+
+// Handle threshold form submission
+const setThreshold = async (req, res) => {
+    try {
+        const { threshold } = req.body;
+
+        // Validate threshold input
+        if (isNaN(threshold) || threshold <= 0) {
+            return res.render('manufacturer/settings', {
+                user: req.user,
+                threshold,
+                message: "",
+                error: "Please enter a valid threshold value."
+            });
+        }
+
+        // Update the threshold for the manufacturer
+        await User.updateOne(
+            { email: req.user.email },
+            { $set: { paymentThreshold: parseInt(threshold, 10) } }
+        );
+
+        res.render('manufacturer/settings', {
+            user: req.user,
+            threshold,
+            message: "Threshold set successfully!",
+            error: ""
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).render('manufacturer/settings', {
+            user: req.user,
+            threshold: 0,
+            message: "",
+            error: "Error saving threshold"
+        });
+    }
+};
+
+
+
+
+
 
 
 module.exports = {
@@ -193,5 +294,8 @@ module.exports = {
     viewProducts,
     deleteProduct,
     updateProduct,
-    viewOneProduct
+    viewOneProduct,
+    downloadQRcode,
+    getThresholdForm,
+    setThreshold,
 }
