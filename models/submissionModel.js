@@ -21,6 +21,11 @@ const submissionSchema = new Schema({
         ref: 'User',
         required: true
     },
+    collector_id: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
     submission_date: {
         type: Date,
         default: Date.now

@@ -15,10 +15,17 @@
     <!-- Search Section -->
     <section id="search-section" class="search-section py-5 bg-light text-center">
         <div class="container">
-            <h3>Find Your Submissions</h3>
+            <h3>Find Submissions</h3>
             <form action="/contributor/search" method="post" class="form-inline justify-content-center">
                 <input type="email" name="email" class="form-control mr-2" placeholder="Enter your email" required>
                 <button type="submit" class="btn btn-dark">Search</button>
+            </form>
+        </div>
+        <div class="container">
+            <h3>Check History</h3>
+            <form action="/contributor/history" method="post" class="form-inline justify-content-center">
+                <input type="email" name="email" class="form-control mr-2" placeholder="Enter your email" required>
+                <button type="submit" class="btn btn-dark">History</button>
             </form>
         </div>
     </section>
@@ -59,7 +66,7 @@
                     <ul class="list-group input">
                         <% manufacturers.forEach(manufacturer => { %>
                             <li class="list-group-item">
-                                <strong><%= manufacturer.name %></strong> -  <strong> <%= manufacturer.address %></strong> 
+                                <strong><%= manufacturer.name %></strong> 
                                 <strong>Threshold:</strong> - <strong> <%= manufacturer.paymentThreshold %></strong> 
                             </li>
                         <% }) %>
@@ -85,7 +92,7 @@
     <section id="contact" class="contact-section py-5 bg-light">
         <div class="container">
             <h2 class="text-center mb-4">Contact Us</h2>
-            <div class="row">
+            <div class="row">4
                 <div class="col-md-6">
                     <form action="#" method="POST">
                         <div class="form-group">

@@ -6,6 +6,7 @@ const DB_URI = process.env.MONGO_URI
 const cookieParser = require('cookie-parser');
 const authenticate = require('./middlewares/auth')
 const errorHandler = require('./middlewares/errorHandler')
+const app = express()
 
 
 //Routes
@@ -17,15 +18,13 @@ const collectorRoute = require('./routes/collectorRoute')
 
 
 
-const app = express()
+
+//Middlewares
+app.set('view engine', 'ejs')
+app.set('views', './views');
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
-
-
-
-app.set('view engine', 'ejs')
-app.set('views', './views');
 app.use(express.static('static'));
 
 

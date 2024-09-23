@@ -30,8 +30,15 @@
                             <p class="col-md-8">
                                 <img id="qrImage-<%= product._id %>" src="<%= qrCode%>" alt="QR Code">
                             <p>
-                            <a href="/manufacturer/downloadQrcode/<%= product._id %>" class="btn btn-primary btn-lg mt-2">Download QR Code</a>
 
+                            <!-- Form to collect the number of QR codes to download -->
+                            <form action="/manufacturer/downloadQrcode/<%= product._id %>" method="GET">
+                                <div class="form-group">
+                                    <label for="amount">Number of QR codes to download:</label>
+                                    <input type="number" id="amount" name="amount" class="form-control" min="1" placeholder="Enter number of QR codes" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-lg mt-2">Download QR Codes</button>
+                            </form>
                         </div>
                     </div>
                 </div>

@@ -131,10 +131,49 @@ const searchSubmissions = async (req, res) => {
 }
 
 
+const getHistoryContributor = async (req, res) => {
+    try {
+        // Get contributor email from request body
+        const contributorEmail = req.body.email;
+
+        // Find the contributor by email
+        const contributor = await User.findOne({ email: contributorEmail, role: 'contributor' });
+
+        if (!contributor) {
+            return res.render(`contributor/history`, { submissions: [], currentPage: 1, totalPages: 1, message: 'Contributor not found' });
+        }
+
+        // Get contributor ID
+        const contributorId = contributor._id;
+
+        // Pagination parameters
+        const page = parseInt(req.query.page) || 1; // Current page number, default to 1
+        const limit = 10; // Number of submissions per page
+        const skip = (page - 1) * limit; // Calculate number of documents to skip
+
+        // Find all submissions made by this contributor with pagination
+        const submissions = await Submission.find({ contributor_id: contributorId })
+            .populate('product_id', 'productName productPoint')
+            .populate('collector_id', 'name') // Populate collector's name
+            .skip(skip)
+            .limit(limit);
+
+        // Count total submissions for pagination
+        const totalSubmissions = await Submission.countDocuments({ contributor_id: contributorId });
+        const totalPages = Math.ceil(totalSubmissions / limit);
+
+        // Render the history view and pass the submissions and pagination data
+        res.render('contributor/history', { submissions, currentPage: page, totalPages });
+    } catch (err) {
+        console.error('Error fetching submission history:', err);
+        res.status(500).send('Internal Server Error');
+    }
+};
 
 
 module.exports = {
     getProducts,
     editProfile,
-    searchSubmissions
+    searchSubmissions,
+    getHistoryContributor
 }

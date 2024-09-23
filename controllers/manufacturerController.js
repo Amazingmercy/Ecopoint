@@ -1,11 +1,14 @@
 const Product = require('../models/productModel')
 const User = require('../models/userModel')
 const Points = require('../models/pointsModel');
+const QRcode = require('../models/qrCodeModel')
 const mongoose = require('mongoose');
 const fs = require('fs');
 const path = require('path');
 const { pipeline } = require('stream/promises'); // Use pipeline from the stream module
 const axios = require('axios')
+const archiver = require('archiver')
+
 
 
 const viewDashboard = async (req, res) => {
@@ -128,8 +131,6 @@ const viewOneProduct = async (req, res) => {
     const user = await User.findOne({ email: req.user.email });
     const productId = req.params.id
     const product = await Product.findOne({ _id: productId }).select('productName category points productImage')
-    const productName = product.productName
-    const points = product.points
 
 
 
@@ -143,8 +144,6 @@ const viewOneProduct = async (req, res) => {
         error: ""
     });
 }
-
-
 
 
 const updateProduct = async (req, res) => {
@@ -188,8 +187,8 @@ const deleteProduct = async (req, res) => {
     }
 };
 
-
-const downloadQRcode = async (req, res) => {
+//Generate Qr code which is same for product
+const downloadSingleQRcode = async (req, res) => {
     try {
         const productId = req.params.id;
 
@@ -229,6 +228,94 @@ const downloadQRcode = async (req, res) => {
         res.status(500).json({ message: 'Error generating QR code download' });
     }
 };
+
+
+//Generate unique Qr codes for same product
+const downloadQRcode = async (req, res) => {
+    try {
+        const productId = req.params.id;
+        const numberOfCodes = parseInt(req.query.amount, 10); // Assuming the amount is passed as a query parameter
+        if (isNaN(numberOfCodes) || numberOfCodes <= 0) {
+            return res.status(400).json({ message: 'Invalid amount provided' });
+        }
+
+        // Array to store the paths of the generated QR codes
+        const qrCodePaths = [];
+
+        // Loop to generate multiple QR codes
+        for (let i = 0; i < numberOfCodes; i++) {
+            // Create a unique string for each QR code (e.g., append a counter or timestamp)
+            const uniqueCode = `${productId}-${i}-${Date.now()}`;
+
+            // Generate the QR code URL
+            const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${uniqueCode}`;
+
+            // Path to save each QR code temporarily
+            const qrCodeFilePath = path.join(__dirname, '..', 'static', 'qrCodes', `${uniqueCode}-qrcode.png`);
+
+            // Download the QR code and save it locally using stream pipeline
+            const response = await axios({
+                url: qrCodeUrl,
+                method: 'GET',
+                responseType: 'stream'
+            });
+
+            // Use the pipeline method to handle the stream with async/await
+            await pipeline(response.data, fs.createWriteStream(qrCodeFilePath));
+
+            // Add the file path to the array
+            qrCodePaths.push(qrCodeFilePath);
+
+            // Save the QR code to the database using `create()`
+            await QRcode.create({
+                productId: productId,
+                uniqueCode: uniqueCode
+            });
+        }
+
+        // Create a zip file to bundle all QR codes for download
+        const zipFilePath = path.join(__dirname, '..', 'static', 'qrCodes', `${productId}-qrcodes.zip`);
+        const zip = archiver('zip', {
+            zlib: { level: 9 } // Compression level
+        });
+
+        const output = fs.createWriteStream(zipFilePath);
+        zip.pipe(output);
+
+        // Add all generated QR codes to the zip archive
+        qrCodePaths.forEach(filePath => {
+            zip.file(filePath, { name: path.basename(filePath) });
+        });
+
+        // Finalize the zip archive
+        await zip.finalize();
+
+        // Once the zip is created, send it to the client for download
+        output.on('close', async () => {
+            res.download(zipFilePath, `${productId}-qrcodes.zip`, async (err) => {
+                if (err) {
+                    console.log('Error downloading QR codes:', err);
+                    return res.status(500).send('Error downloading QR codes');
+                }
+
+                // Optionally, delete the zip and the QR code files after downloading
+                try {
+                    await fs.promises.unlink(zipFilePath); // Delete the zip file
+                    for (const filePath of qrCodePaths) {
+                        await fs.promises.unlink(filePath); // Delete each QR code file
+                    }
+                } catch (unlinkErr) {
+                    console.log('Error deleting QR code files:', unlinkErr);
+                }
+            });
+        });
+
+    } catch (error) {
+        console.error('Error generating QR code download:', error);
+        res.status(500).json({ message: 'Error generating QR code download' });
+    }
+};
+
 
 
 // Render the form to set the threshold

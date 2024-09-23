@@ -44,10 +44,10 @@ const register = async (req, res) => {
 
     try {
         if (password != confirmPassword) {
-            return res.status(400).render('index', { error: 'Password do not match', message: "" })
+            return res.status(400).render('index', { error: 'Password do not match', message: "", newUser: "" })
         }
         if (existingUser) {
-            return res.status(400).render('index', { error: 'Email has been registered!', message: "" })
+            return res.status(400).render('index', { error: 'Email has been registered!', message: "", newUser: ""})
         }
 
         const newUser = await User.create({ name, email, password, address, role: role.toLowerCase() });
