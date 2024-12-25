@@ -1,6 +1,6 @@
 require('dotenv').config()
 const express = require('express')
-const connectDB = require('./CONFIG/dataBase')
+const connectDB = require('./config/dataBase')
 const DB_URI = process.env.MONGO_URI
 const cookieSession = require('cookie-session');
 
