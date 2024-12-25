@@ -50,14 +50,34 @@ const register = async (req, res) => {
             return res.status(400).render('index', { error: 'Email has been registered!', message: "", newUser: ""})
         }
 
-        const newUser = await User.create({ name, email, password, address, role: role.toLowerCase() });
+        const user = await User.create({ name, email, password, address, role: role.toLowerCase() });
+        const newUser = await User.findOne({ email })
+
+        if (!newUser) {
+            return res.render('login', { error: 'Invalid Email', message: "" });
+        }
+
+        //Authenticate user
+        const payload = {
+            userId: newUser._id,
+            userEmail: newUser.email,
+            userRole: newUser.role,
+        };
+
+
+        const token = jwt.sign(payload, secretKey, { expiresIn: '100m' });
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            maxAge: 24 * 60 * 60 * 1000 // 24 hours
+        });
         if (role == 'Contributor') {
-            res.render('index', { message: "User registered successfully, Please fill in your bank details", newUser, error: "" })
+            res.render('index', { message: "User registered successfully, Please enter your wallet address", newUser, error: "" })
         } else if (role == 'Collector') {
-            res.render('index', { message: "User registered successfully, Please fill in your bank details", newUser, error: "" })
+            res.render('index', { message: "User registered successfully, Please enter your wallet address", newUser, error: "" })
         }
         else {
-            res.render('login', { message: `User registered successfully!`, newUser, error: '' });
+            res.render('login', { message:' User registered successfully!', newUser, error: '' });
         }
     } catch (error) {
         res.render('index', { message: "", error: error.message });

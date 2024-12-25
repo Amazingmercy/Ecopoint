@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login | Ecopoint</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="icon" href="/images/EcoPoint.png" type="image/x-icon">
     <link rel="stylesheet" href="/styles/index.css">
 </head>
 
@@ -30,9 +31,11 @@
         </div>
     <% } %>
 
-    <main class="login-container d-flex align-items-center justify-content-center">
-        <div class="login-box">
-            <h2 class="text-center">Login </h2>
+    
+
+    <main class="login-container d-flex align-items-center justify-content-center bg-light" style="height: 100vh;">
+        <div class="login-box bg-white p-4 rounded shadow">
+            <h2 class="text-center mb-4">Login </h2>
             <form action="/login" method="POST">
                 <div class="form-group">
                     <label for="email">Email</label>

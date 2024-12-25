@@ -8,37 +8,34 @@ const path = require('path');
 const { pipeline } = require('stream/promises'); // Use pipeline from the stream module
 const axios = require('axios')
 const archiver = require('archiver')
+const qrCode = require('qrcode')
+const bs58 = require('bs58')
+const { Connection, PublicKey, Transaction, SystemProgram } = require('@solana/web3.js');
 
 
 
 const viewDashboard = async (req, res) => {
     try {
-
         const manufacturerId = req.user.userId;
         const manufacturerObjectId = new mongoose.Types.ObjectId(manufacturerId);
 
         // Fetch total products created by this manufacturer
         const totalProducts = await Product.countDocuments({ manufacturer: manufacturerId });
 
-        // Fetch total contributors who have points from this manufacturer (role = 'contributor')
-        const contributors = await Points.find({ manufacturer: manufacturerId })
+        // Fetch total contributors and collectors who have points from this manufacturer
+        const pointsData = await Points.find({ manufacturer: manufacturerId })
             .populate({
                 path: 'user',
-                match: { role: 'contributor' },  // Filter to match contributors
-                select: 'role'  // Select the role field
+                select: 'role name email walletDetails.walletAddress'  // Select required fields for user
             });
 
-        const totalContributors = contributors.filter(contributor => contributor.user).length;
+        // Separate contributors and collectors
+        const contributors = pointsData.filter(points => points.user.role === 'contributor');
+        const collectors = pointsData.filter(points => points.user.role === 'collector');
 
-        // Fetch total collectors who have collected products from this manufacturer (role = 'collector')
-        const collectors = await Points.find({ manufacturer: manufacturerId })
-            .populate({
-                path: 'user',
-                match: { role: 'collector' },  // Filter to match collectors
-                select: 'role'  // Select the role field
-            });
+        const totalContributors = contributors.length;
+        const totalCollectors = collectors.length;
 
-        const totalCollectors = collectors.filter(collector => collector.user).length;
         // Calculate total points distributed by this manufacturer
         const totalPoints = await Points.aggregate([
             {
@@ -54,20 +51,47 @@ const viewDashboard = async (req, res) => {
 
         const pointsDistributed = totalPoints.length > 0 ? totalPoints[0].totalPoints : 0;
 
-        // Render the dashboard with the retrieved data
+        // Fetch the manufacturer's payment threshold
+        const manufacturer = await User.findById(manufacturerId);
+        const threshold = manufacturer.paymentThreshold;
+
+        // Check if any contributors or collectors have reached the payment threshold
+        let usersToPay = [];
+        for (const points of pointsData) {
+            if (points.totalPoints >= threshold) {
+                usersToPay.push({
+                    userName: points.user.name,
+                    userEmail: points.user.email,
+                    walletAddress: points.user.walletDetails.walletAddress,
+                    totalPoints: points.totalPoints,
+                    manufacturerId: points.manufacturer,
+                    role: points.user.role , // Role can be 'contributor' or 'collector'
+                    id: points.user._id
+                });
+            }
+        }
+
+        
+
+        // Render the dashboard with the retrieved data, including threshold notifications
         res.render('manufacturer/dashboard', {
             totalProducts,
-            totalCollectors,
             totalContributors,
+            totalCollectors,
             pointsDistributed,
+            usersToPay,  // Pass the list of contributors and collectors who reached the threshold
+            showPaymentOption: usersToPay.length > 0,  // Show "Pay Now" button if there are users to pay
             error: "",
-            message: ""
+            message: usersToPay.length > 0
+                ? 'The following users have reached the payment threshold. You can now make payments.'
+                : ""
         });
     } catch (error) {
-        console.error(error);
+        console.log(error);
         res.status(400).json({ message: 'Error rendering Manufacturer Dashboard' });
     }
 };
+
 
 
 const viewAddProduct = async (req, res) => {
@@ -82,7 +106,6 @@ const viewAddProduct = async (req, res) => {
 
 const addProduct = async (req, res) => {
     const user = await User.findOne({ email: req.user.email });
-    console.log(user)
     const userId = user._id;
 
     if (req.user.role !== 'manufacturer') {
@@ -224,7 +247,7 @@ const downloadSingleQRcode = async (req, res) => {
         });
 
     } catch (error) {
-        console.error('Error generating QR code download:', error);
+        console.log('Error generating QR code download:', error);
         res.status(500).json({ message: 'Error generating QR code download' });
     }
 };
@@ -311,7 +334,7 @@ const downloadQRcode = async (req, res) => {
         });
 
     } catch (error) {
-        console.error('Error generating QR code download:', error);
+        console.log('Error generating QR code download:', error);
         res.status(500).json({ message: 'Error generating QR code download' });
     }
 };
@@ -325,7 +348,7 @@ const getThresholdForm = async (req, res) => {
         const threshold = user.paymentThreshold || 0;  // Fetch existing threshold if available
         res.render('manufacturer/settings', { user, threshold, message: "", error: "" });
     } catch (error) {
-        console.error(error);
+        console.log(error);
         res.status(500).render('manufacturer/settings', { user: req.user, threshold: 0, message: "", error: "Error loading form" });
     }
 };
@@ -358,7 +381,7 @@ const setThreshold = async (req, res) => {
             error: ""
         });
     } catch (error) {
-        console.error(error);
+        console.log(error);
         res.status(500).render('manufacturer/settings', {
             user: req.user,
             threshold: 0,
@@ -368,6 +391,107 @@ const setThreshold = async (req, res) => {
     }
 };
 
+const storeWalletAddress = async (req, res) => {
+    const userId = req.params.id
+
+    const { walletAddress} = req.body;
+    try {
+
+        const newUser = await User.findOneAndUpdate(
+            { _id: userId, role: { $in: ['manufacturer'] } },
+            {
+                $set: {
+                    walletDetails: {
+                        walletAddress: walletAddress
+                    }
+                }
+            },
+            { new: true }
+        );
+        res.redirect('/login')
+    } catch (error) {
+        console.log(error)
+        res.status(400).json({ message: 'Error rendering Dashboard' })
+    }
+
+}
+
+
+const viewPaymentPage = async (req, res) => {
+    try {
+        const { userId, userName, publicKey, amount, manufacturerId } = req.body;
+        res.render('manufacturer/pay', {
+            userId,       
+            userName,     
+            publicKey,    
+            amount,
+            manufacturerId  
+        });
+    } catch (error) {
+        console.log('Error rendering payment page:', error);
+        res.status(500).json({ message: 'Error rendering payment page' });
+    }
+};
+
+
+const createTransaction = async (req, res) => {
+    const { userName, amount, recipientPublicKey, manufacturerPublicKey } = req.body;
+    const amountInLamports = amount * 1_000_000_000;
+    const connection = new Connection('https://api.devnet.solana.com', 'confirmed');
+  
+    try { 
+        res.status(200).json({userName, amountInLamports});
+      // window.location.href = 'manufacturer/signTransaction';
+      // sessionStorage.setItem('transactionResponse', JSON.stringify(transactionResponse));
+      } catch (error) {
+          console.log('Error rendering payment page:', error);
+          res.status(500).json({ message: 'Error rendering payment page' });
+      }
+    };
+
+
+
+
+    const viewConfirmPayment = async (req, res) => {
+        try {
+            const { amount, userName, userId, manufacturerId } = req.body; 
+    
+            // Update totalPoints to zero in the Points collection
+            await Points.updateOne(
+                { user: userId, manufacturer: manufacturerId }, // Filter to find the specific user's points entry
+                { totalPoints: 0 } // Update totalPoints to zero
+            );
+            // Render the confirmation page
+            res.render('manufacturer/confirmPayment', {
+                amount,
+                userName
+            });
+            
+            
+        } catch (error) {
+            console.log('Error updating points:', error);
+            // Handle error (optional: render an error page or return a response)
+            res.status(500).send('An error occurred while processing your request.');
+        }
+    };
+
+  const receivedSignature = async (req, res) => {
+    const { signedTransaction } = req.body;
+    const transaction = signedTransaction.serialize().toString('hex')
+    const connection = new Connection('https://api.devnet.solana.com', 'confirmed');
+  
+    try {
+      const signature = await connection.sendRawTransaction(transaction);
+  
+      res.json({ signature });
+    } catch (error) {
+      console.log('Error sending transaction:', error);
+      res.status(500).json({
+        message: 'Transaction failed. Please try again.',
+        success: false,
+      });
+    }
+  };
 
 
 
@@ -385,4 +509,9 @@ module.exports = {
     downloadQRcode,
     getThresholdForm,
     setThreshold,
+    viewPaymentPage,
+    createTransaction,
+    receivedSignature,
+    storeWalletAddress,
+    viewConfirmPayment
 }

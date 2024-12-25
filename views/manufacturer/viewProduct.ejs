@@ -4,11 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Details | Ecopoint</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/styles/partials.css">
+    <link rel="stylesheet" href="/styles/manufacturer.css">
+    <link rel="icon" href="/images/EcoPoint.png" type="image/x-icon">
 </head>
 <body>
-    <%- include('../partials/navbar') %>
+    <%- include('../partials/sidebar', { currentPage: 'viewProduct' }) %>
     
     <div class="wrapper">
         <main class="container mt-5">
@@ -37,7 +39,7 @@
                                     <label for="amount">Number of QR codes to download:</label>
                                     <input type="number" id="amount" name="amount" class="form-control" min="1" placeholder="Enter number of QR codes" required>
                                 </div>
-                                <button type="submit" class="btn btn-primary btn-lg mt-2">Download QR Codes</button>
+                                <button type="submit" class="btn btn-success btn-lg mt-2">Download QR Codes</button>
                             </form>
                         </div>
                     </div>

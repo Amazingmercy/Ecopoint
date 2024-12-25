@@ -5,22 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Collector Dashboard</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/styles/styles.css">
-    <link rel="stylesheet" href="/styles/partials.css">
-    <style>
-        
-    </style>
+    <link rel="stylesheet" href="/styles/collector.css">
+    <link rel="icon" href="/images/EcoPoint.png" type="image/x-icon">
 </head>
 <body>
     <%- include('../partials/nav') %>
-    <div id="scan-message" class="alert alert-info mt-4" style="display: none;"></div>
+
+    <!-- Alert Message Container -->
+    <div id="scan-message" class="alert alert-info mt-4 text-center" style="display: none;"></div>
+
     <% if (message) { %>
         <div class="message"><span><%= message %></span> <i class="fas fa-times" onclick="this.parentElement.style.display = 'none';"></i></div>
     <% } %>
 
-
-    <div class="container-fluid collector-app">
-
+    <!-- Collector App Container -->
+    <div class="container-fluid collector-app p-4">
         <!-- Form to submit email and scan QR code -->
         <form action="/collector/scan" id="collectorForm" class="collector-form" method="post">
             <div class="form-group">
@@ -28,21 +27,23 @@
                 <input type="email" class="form-control" id="contributorEmail" name="contributorEmail" required>
             </div>
 
-            <div class="camera-container">
-                <h3>Scan QR Code</h3>
-                <video id="preview"></video>
+            <!-- Camera Container -->
+            <div class="camera-container mb-4">
+                <h3 class="text-center">Scan QR Code</h3>
+                <video id="preview" class="border border-dark"></video>
             </div>
 
             <input type="hidden" id="productQrCode" name="productQrCode" required>
             <button type="submit" class="btn btn-primary btn-block mt-3">Submit</button>
         </form>
 
+        <!-- Points Container -->
         <% if (manufacturer) { %>
-        <div id="points-container" class="points-container">
+            <div id="points-container" class="points-container text-center mt-4">
                 <p>Manufacturer: <%= manufacturer %></p>
                 <p>Product: <%= product %></p>
                 <p>Total Points: <%= totalPointsFromManufacturer %></p>
-        </div>
+            </div>
         <% } else { %>
             <div></div>
         <% } %>
@@ -90,51 +91,7 @@ const scanProduct = async () => {
     }
 };
 
-// Handle form submission via Axios
-// const handleFormSubmission = async () => {
-//     try {
-//         const contributorEmail = document.getElementById('contributorEmail').value;
-//         const productQrCode = document.getElementById('productQrCode').value;
 
-//         const response = await axios.post('/collector/scan', {
-//             contributorEmail,
-//             productQrCode
-//         });
-
-//         const data = response.data;
-
-//         if (data.message) {
-//             // Display success message
-//             const messageContainer = document.getElementById('scan-message');
-//             messageContainer.classList.remove('d-none');
-//             messageContainer.textContent = data.message;
-//             messageContainer.style.display = 'block';
-
-//             if (data.manufacturer) {
-//                 // Display updated points for the manufacturer
-//                 const pointsContainer = document.getElementById('points-container');
-//                 pointsContainer.innerHTML = `
-//                     <p>Manufacturer: ${data.manufacturer}</p>
-//                     <p>Product: ${data.product}<p>
-//                     <p>Total Points: ${data.totalPointsFromManufacturer}</p>
-//                 `;
-//             }
-//         }
-//     } catch (error) {
-//         console.log('Error initializing scanner:', error);
-//         const scanMessage = document.getElementById('scan-message');
-//         scanMessage.textContent = 'An error occurred while submitting the QR code.'+ error;
-//         scanMessage.style.display = 'block';  // Display error message
-//     }
-// };
-
-// // Attach event listeners
-// document.getElementById('collectorForm').addEventListener('submit', (e) => {
-//     e.preventDefault();  // Prevent form from submitting normally
-//     handleFormSubmission();  // Call the async function to handle submission
-// });
-
-// Initialize the QR scanner when the page loads
 window.onload = () => {
     scanProduct();
 };

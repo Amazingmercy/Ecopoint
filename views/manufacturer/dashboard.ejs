@@ -5,63 +5,144 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manufacturer Dashboard | Ecopoint</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/styles/styles.css">
+    <link rel="stylesheet" href="/styles/manufacturer.css">
+    <link rel="icon" href="/images/EcoPoint.png" type="image/x-icon">
 </head>
 
 <body>
 
-    <%- include('../partials/navbar') %>
-    <div class="container-fluid">
-        <div class="row">
+    <%- include('../partials/sidebar', { currentPage: 'dashboard' }) %>
+        <div class="wrapper">
+            <!-- Slideshow Container -->
+            <div class="slideshow-container">
+                <% if (usersToPay.length> 0) { %>
+                    <% usersToPay.forEach((user, index)=> { %>
+                        <div class="slide">
+                            <h4>
+                                <%= user.userName %> has succesfully reached the payment threshold.
+                            </h4>
+                            <form action="/manufacturer/pay" method="POST">
+                                <input type="hidden" name="userId" value="<%= user.id %>">
+                                <input type="hidden" name="userName" value="<%= user.userName %>">
+                                <input type="hidden" name="publicKey" value="<%= user.walletAddress %>">
+                                <input type="hidden" name="amount" value="<%= user.totalPoints %>">
+                                <input type="hidden" name="manufacturerId" value="<%= user.manufacturerId %>">
+                                <button type="submit" class="pay-now-button">Pay Now</button>
+                            </form>
+                        </div>
+                        <% }); %>
+                            <!-- Navigation Buttons -->
+                            <button class="prev-button">&lt;</button>
+                            <button class="next-button">&gt;</button>
+                            <% } else { %>
+                                <p class="no-users-message">No users have reached the payment threshold.</p>
+                                <% } %>
+            </div>
 
-            <!-- Main Content -->
-            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
-                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                    <h1 class="h2">Dashboard</h1>
+            <div class="container-fluid">
+
+                    <!-- Main Content -->
+                    <main class="main" >
+
+                        <!-- Dashboard Overview -->
+                        <div class="row">
+                            <div class="col-lg-3 col-md-6 col-sm-6">
+                                <div class="card text-white bg-success mb-3">
+                                    <div class="card-body">
+                                        <h5 class="card-title"> Products</h5>
+                                        <p class="card-text">
+                                            <%= totalProducts %>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-sm-6">
+                                <div class="card text-white bg-danger mb-3">
+                                    <div class="card-body">
+                                        <h5 class="card-title"> Collectors</h5>
+                                        <p class="card-text">
+                                            <%= totalCollectors %>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-sm-6">
+                                <div class="card text-white bg-warning mb-3">
+                                    <div class="card-body">
+                                        <h5 class="card-title"> Contributors</h5>
+                                        <p class="card-text">
+                                            <%= totalContributors %>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-sm-6">
+                                <div class="card text-white bg-primary mb-3">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Points </h5>
+                                        <p class="card-text">
+                                            <%= pointsDistributed %>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                 </div>
 
-                <!-- Dashboard Overview -->
-                <div class="row">
-                    <div class="col-md-3 card-container">
-                        <div class="card text-white bg-success mb-3">
-                            <div class="card-body">
-                                <h5 class="card-title">Total Products</h5>
-                                <p class="card-text"><%= totalProducts %></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 card-container">
-                        <div class="card text-white bg-danger mb-3">
-                            <div class="card-body">
-                                <h5 class="card-title">Total Collectors</h5>
-                                <p class="card-text"><%= totalCollectors %></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 card-container">
-                        <div class="card text-white bg-warning mb-3">
-                            <div class="card-body">
-                                <h5 class="card-title">Total Contributors</h5>
-                                <p class="card-text"><%= totalContributors %></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 card-container">
-                        <div class="card text-white bg-primary mb-3">
-                            <div class="card-body">
-                                <h5 class="card-title">Points Distributed</h5>
-                                <p class="card-text"><%= pointsDistributed %></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </main>
+                </main>
+            
         </div>
-    </div>
 
-    <%- include('../partials/footer') %>
+        <%- include('../partials/footer') %>
 </body>
+<script>
+    // Get slideshow container
+    const slideshowContainer = document.querySelector('.slideshow-container');
+
+    // Get slides
+    const slides = document.querySelectorAll('.slide');
+
+    // Get navigation buttons
+    const prevButton = document.querySelector('.prev-button');
+    const nextButton = document.querySelector('.next-button');
+
+    // Initialize current slide index
+    let currentSlideIndex = 0;
+
+    // Function to show slide
+    function showSlide(index) {
+        // Hide all slides
+        slides.forEach((slide) => {
+            slide.classList.remove('active');
+        });
+
+        // Show current slide
+        slides[index].classList.add('active');
+    }
+
+    // Show first slide initially
+    showSlide(currentSlideIndex);
+
+    // Add event listeners to navigation buttons
+    prevButton.addEventListener('click', () => {
+        // Decrement current slide index
+        currentSlideIndex = (currentSlideIndex - 1 + slides.length) % slides.length;
+
+        // Show previous slide
+        showSlide(currentSlideIndex);
+    });
+
+    nextButton.addEventListener('click', () => {
+        // Increment current slide index
+        currentSlideIndex = (currentSlideIndex + 1) % slides.length;
+
+        // Show next slide
+        showSlide(currentSlideIndex);
+    });
+
+
+</script>
 
 </html>

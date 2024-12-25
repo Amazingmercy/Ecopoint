@@ -11,7 +11,7 @@ body {
 
 /* Header styles */
 .header {
-    background: linear-gradient(90deg, #333 0%, #444 50%, #555 100%);
+    background: linear-gradient(90deg, #ffff 0%, #128a36 50%, #10471e 100%);
     color: #fff;
     padding: 20px;
     display: flex;
@@ -36,12 +36,12 @@ body {
 }
 
 .header .nav a:hover {
-    color: #ddd; /* Light gray for hover effect */
+    color: #208341; /* Light gray for hover effect */
 }
 
 /* Sidebar styles */
 #sidebar {
-    background-color: #333;
+    background-color: #208341;
     min-height: 100vh;
     width: 250px;
     position: fixed; /* Fixed to the left */
@@ -69,12 +69,12 @@ body {
 
 .nav-link:hover {
     color: #ffffff;
-    background-color: #495057;
+    background-color: #128a36;
     border-radius: 5px;
 }
 
 .nav-link.active {
-    background-color: #495057;
+    background-color: #cfd8dc;
     color: #ffffff;
     border-radius: 5px;
 }
@@ -143,47 +143,48 @@ main.container {
 }
 
 /* Footer styles */
-footer {
-    background-color: #333;
-    color: #fff;
-    padding: 30px;
-    text-align: center;
-    border-top: 5px solid #d9534f;
-    margin-top: auto; /* Push footer to the bottom */
+
+.footer-section {
+    background: linear-gradient(90deg, #0d612d 0%, #128a36 50%, #10471e 100%);
+    color: white;
+    padding: 10px 0;
+    
 }
 
-footer p {
-    margin: 0;
-    font-size: 14px;
+.footer-section h4 {
+    font-weight: 600;
+    margin-bottom: 10px;
 }
-
-footer nav {
-    margin-top: 10px;
-}
-
-footer a {
+.footer-section a {
     color: #fff;
     text-decoration: none;
-    margin: 0 10px;
-    font-size: 14px;
+    font-weight: 600;
+    font-size: 16px;
+    transition: color 0.3s;
 }
 
-footer a:hover {
-    text-decoration: underline;
-}
-
-/* Additional utility styles */
-.text-center {
-    text-align: center;
-}
-
-.mb-4 {
-    margin-bottom: 1.5rem;
-}
-
-.shadow-sm {
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+.footer-section a:hover {
+    color: #208341; /* Light gray for hover effect */
 }
 
 
+.footer-section p {
+    margin-bottom: 20px;
+}
 
+.nav {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+    .nav {
+        justify-content: center;
+    }
+    .nav-link {
+        margin-right: 10px;
+    }
+}
+
+/* HEADER */

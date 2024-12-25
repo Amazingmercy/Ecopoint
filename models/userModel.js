@@ -36,21 +36,12 @@ const userSchema = new Schema({
         type: Date,
         default: Date.now,
     },
-    bankDetails: {
-        bankName: {
+    walletDetails: {
+        walletAddress: {
             type: String,
             maxlength: 100,
             trim: true,
-        },
-        accountNumber: {
-            type: String,
-            maxlength: 20,
-            trim: true,
-        },
-        accountName: {
-            type: String,
-            maxlength: 100,
-            trim: true,
+            default: 'address'
         }
     }
 });

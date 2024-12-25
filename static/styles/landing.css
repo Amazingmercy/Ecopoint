@@ -1,164 +1,185 @@
-/* Custom Theme Colors */
-:root {
-    --primary-color: #333; /* Dark Grey */
-    --secondary-color: #dc3545; /* Red */
-    --background-color: #f8f9fa; /* Light Gray */
-    --text-color: #fff; /* White text for dark backgrounds */
-}
-body{
-    background-color: linear-gradient(90deg, var(--background-color) 50%, var(--primary-color) 50%, var(--background-color) 50% );
-}
-
-/* Hero Section */
-.hero-section , #users-section{
-    background: linear-gradient(90deg, var(--primary-color) 0%, var(--secondary-color) 50%, var(--primary-color) 100%);
-    color: var(--text-color);
-    padding: 60px 20px;
-    text-align: center;
-    min-height: 400px;
-}
-
-.hero-section h1 {
-    font-size: 3rem;
-    font-weight: 700;
-}
-
-.hero-section p {
-    font-size: 1.25rem;
-    margin: 20px;
-}
-
-.hero-section .btn-light {
-    background-color: var(--text-color);
-    color: var(--primary-color);
-    border: none;
-    padding: 12px 24px;
-    font-size: 1rem;
-    font-weight: 600;
-}
-
-.hero-section .btn-light:hover {
-    background-color: var(--primary-color);
-    color: var(--text-color);
-}
-
-.hero-section .container{
-    margin-top: 100px;
-}
-
-/* About Section */
-.about-section {
-    padding: 60px 20px;
-}
-
-.about-section h2 {
-    font-size: 2rem;
-    color: var(--primary-color);
-    margin-bottom: 20px;
-}
-
-.about-section p {
-    font-size: 1rem;
+body {
+    font-family: Open Sans, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
     color: #333;
-}
-
-.img-fluid {
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-/* Contact Section */
-.contact-section {
-    padding: 60px 20px;
-}
-
-.contact-section h2 {
-    font-size: 2rem;
-    color: var(--primary-color);
-    margin-bottom: 20px;
-}
-
-.contact-section .btn-dark {
-    background-color: var(--primary-color);
-    color: var(--text-color);
-    border: none;
-    padding: 12px 24px;
-    border-radius: 25px;
-    font-size: 1rem;
+    margin: 0;
+    padding: 0;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
     font-weight: 600;
-}
+    color: #212121;
+  }
+  
+  a {
+    text-decoration: none;
+    color: #337ab7;
+  }
+  
+  a:hover {
+    color: #23527c;
+  }
+  
+  .container {
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  
+  .section {
+    padding: 50px 0;
+  }
+  
+  .bg-light {
+    background-color: #f9f9f9;
+  }
 
-.contact-section .btn-dark:hover {
-    background-color: #555; /* Darker grey for hover effect */
-}
-
-/* Form Styling */
-.form-group label {
-    font-weight: bold;
-    color: var(--primary-color);
-}
-
-.form-group input, .form-group textarea {
-    border: 1px solid #ddd;
-    border-radius: 6px;
-}
-
-.form-group input:focus, .form-group textarea:focus {
-    border-color: var(--secondary-color);
-    box-shadow: 0 0 5px rgba(220, 53, 69, 0.2); /* Red shadow on focus */
-    outline: none;
-}
-
-/* Search Section */
-.search-section {
-    background-color: #f1f1f1;
-    padding: 60px 20px;
-    border-radius: 15px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  /* HERO section */
+  .hero-section {
+    background-image: linear-gradient(to bottom, #f9f9f9, #fff);
+    background-size: 100% 300px;
+    background-position: 0% 100%;
+    height: 100vh;
     display: flex;
-}
-
-.search-section h2 {
-    font-size: 2rem;
-    color: var(--primary-color);
-    margin-bottom: 30px;
-}
-
-.search-section .form-control {
-    width: 300px;
-    padding: 12px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-}
-
-.search-section .btn-primary {
-    padding: 12px 24px;
-    font-size: 1rem;
-    border-radius: 6px;
-}
-/* Manufacturers & Collectors Section */
-#users-section {
-    background-color: var(--background-color);
-    color: var(--text-color);
-    padding: 60px 20px;
-    min-height: 400px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-.input{
-    min-height: 100px;
-}
-#users-section h4 {
-    font-size: 1.5rem;
-    color: var(--primary-color);
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+  }
+  
+  .hero-section h1 {
+    font-size: 48px;
+    font-weight: 700;
     margin-bottom: 20px;
-}
+  }
+  
+  .hero-section p {
+    font-size: 18px;
+    margin-bottom: 30px;
+  }
+  
+  .hero-section .btn {
+    background: linear-gradient(90deg, #0d612d 0%, #128a36 50%, #10471e 100%);
+    color: #fff;
+    border-radius: 5px;
+    padding: 12px 30px;
+    font-size: 18px;
+  }
+  
+  .hero-section .btn:hover {
+    background: linear-gradient(90deg, #0d612d 0%, #32be5c 50%, #10471e 100%);;
+  }
 
-#users-section .list-group-item {
+  /* SEARCH section */
+
+  .search-section {
+    background-color: #f9f9f9;
+    padding: 30px 0;
+    display: flex;
+  }
+  
+  .search-section form {
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  
+  .search-section input[type="email"] {
+    width: 70%;
+    padding: 10px;
+    font-size: 18px;
     border: 1px solid #ddd;
-    border-radius: 6px;
-    margin-bottom: 10px;
-}
+    border-radius: 5px;
+  }
+  
+  .search-section button[type="submit"] {
+    background: linear-gradient(90deg, #0d612d 0%, #128a36 50%, #10471e 100%);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 18px;
+    border-radius: 5px;
+  }
+  
+  .search-section button[type="submit"]:hover {
+    background: linear-gradient(90deg, #0d612d 0%, #42cc6b 50%, #10471e 100%);
+  }
 
-#users-section .list-group-item strong {
-    color: var(--secondary-color); /* Red color for emphasis */
-}
+  /* ABOUT section */
+  .about-section {
+    background-color: #fff;
+    padding: 50px 0;
+  }
+  .about-section img {
+    width: 100%;
+    height: auto;  /* Changed from 300px to auto */
+    object-fit: contain;  /* Changed from cover to contain */
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .about-section h2 {
+    font-size: 36px;
+    margin-bottom: 20px;
+  }
+  
+  .about-section p {
+    font-size: 18px;
+    margin-bottom: 30px;
+  }
+
+  /* USERS SECTION */
+  .users-section {
+    background-color: #f9f9f9;
+    padding: 50px 0;
+  }
+  
+  .users-section h2 {
+    font-size: 36px;
+    margin-bottom: 20px;
+  }
+  
+  .users-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .users-section li {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .users-section li:last-child {
+    border-bottom: none;
+  }
+  
+  .users-section strong {
+    font-weight: 600;
+  }
+  /* CONTACT SECTION */
+
+  .contact-section {
+    background-color: #f9f9f9;
+    padding: 50px 0;
+  }
+  
+  .contact-section h2 {
+    font-size: 36px;
+    margin-bottom: 20px;
+  }
+  
+  .contact-section form {
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  
+  .contact-section input[type="text"], .contact-section textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 18px;
+    border: 1px solid #ddd;
+  }
+
+  .contact-section button{   
+    background: linear-gradient(90deg, #0d612d 0%, #128a36 50%, #10471e 100%);
+  }

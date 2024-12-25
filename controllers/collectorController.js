@@ -17,8 +17,6 @@ const viewDashboard = async (req, res) => {
 }
 
 
-
-
 const collectSubmission = async (req, res) => {
     const { contributorEmail, productQrCode } = req.body;
     const collector = await User.findOne({ email: req.user.email });

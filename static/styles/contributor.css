@@ -1,0 +1,131 @@
+/* Global Styles */
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+}
+
+.header {
+    background-color: #333;
+    color: #fff;
+    padding: 1rem;
+    text-align: center;
+}
+
+.header h1 {
+    margin: 0;
+}
+
+.nav {
+    margin-top: 10px;
+    text-align: right;
+}
+
+.nav a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.nav a:hover {
+    color: #ccc;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Table Styles */
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #f0f0f0;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* Pagination Styles */
+
+.pagination-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.pagination-link {
+    text-decoration: none;
+    color: #337ab7;
+}
+
+.pagination-link:hover {
+    color: #23527c;
+}
+
+/* Header Styles */
+
+.header {
+    background-color: #333;
+    color: #fff;
+    padding: 1rem;
+    text-align: center;
+}
+
+.header h1 {
+    margin: 0;
+}
+
+.nav {
+    margin-top: 10px;
+    text-align: right;
+}
+
+.nav a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.nav a:hover {
+    color: #ccc;
+}
+
+/* Contributor Name Styles */
+
+.contributor-name {
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+/* Message Alert Styles */
+
+.message-alert {
+    font-size: 16px;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+/* Table Styles */
+
+.submissions-table th, 
+.submissions-table td {
+    vertical-align: middle;
+}
+
+.submissions-table th {
+    background-color: #f0f0f0;
+}
+
+.submissions-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}

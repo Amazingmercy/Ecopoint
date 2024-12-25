@@ -1,0 +1,50 @@
+
+<!-- Sidebar -->
+<nav id="sidebar">
+    <div class="sidebar-sticky pt-3">
+        <ul class="nav flex-column">
+            <!-- Dashboard -->
+            <li class="nav-item">
+                <a class="nav-link <%- (currentPage === 'dashboard') ? 'active' : '' %>" href="/manufacturer/dashboard">
+                    <i class="fas fa-tachometer-alt"></i> Dashboard
+                </a>
+            </li>
+
+            <!-- Products -->
+            <li class="nav-item">
+                <a class="nav-link <%- (currentPage === 'products') ? 'active' : '' %>" href="/manufacturer/product">
+                    <i class="fas fa-boxes"></i> Products
+                </a>
+            </li>
+
+            <!-- Add Product -->
+            <li class="nav-item">
+                <a class="nav-link <%- (currentPage === 'addProduct') ? 'active' : '' %>" href="/manufacturer/addProduct">
+                    <i class="fas fa-plus-circle"></i> Add New Product
+                </a>
+            </li>
+
+            <!-- Settings -->
+            <li class="nav-item">
+                <a class="nav-link <%- (currentPage === 'settings') ? 'active' : '' %>" href="/manufacturer/setThreshold">
+                    <i class="fas fa-cogs"></i> Settings
+                </a>
+            </li>
+
+            <!-- Send NFT -->
+            <li class="nav-item">
+                <a class="nav-link <%- (currentPage === 'sendNFT') ? 'active' : '' %>" href="/manufacturer/sendNFT">
+                    <i class="fas fa-boxes"></i> Send NFT
+                </a>
+            </li>
+
+            <!-- Logout -->
+            <li class="nav-item">
+                <a class="nav-link" href="/logout">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+

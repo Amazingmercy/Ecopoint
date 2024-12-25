@@ -4,10 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ecopoint |Submissions</title>
+    <title>Ecopoint | Submissions</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/styles/landing.css">
-    <link rel="stylesheet" href="/styles/partials.css">
+    <link rel="stylesheet" href="/styles/submissions.css">
+    <link rel="icon" href="/images/EcoPoint.png" type="image/x-icon">
 </head>
 
 <body>
@@ -20,16 +20,16 @@
 
     <div class="container mt-5">
         <% if (contributor) { %>
-            <h2 class="text-center">Points Accumulated for <%= contributor.name %></h2>
+            <h2 class="text-center contributor-name">Points Accumulated for <%= contributor.name %></h2>
         <% } %>
         
 
         <% if (message) { %>
-            <div class="alert alert-warning text-center"><%= message %></div>
+            <div class="alert alert-warning text-center message-alert"><%= message %></div>
         <% } %>
 
         <% if (submissions.length > 0) { %>
-            <table class="table table-bordered mt-4">
+            <table class="table table-bordered mt-4 submissions-table">
                 <thead>
                     <tr>
                         <th>Manufacturer Name</th>

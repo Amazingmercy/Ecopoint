@@ -1,88 +1,180 @@
-/* Custom Theme Colors */
-:root {
-    --primary-color: #333;
-    /* Dark Gray */
-    --secondary-color: #28a745;
-    /* Green */
-    --background-color: #f8f9fa;
-    /* Light Gray */
-    --text-color: #333;
+/* index.css */
+
+.login-container {
+    height: 100vh;
+    background-color: #f9f9f9;
 }
 
-/* Body Styling */
-body {
-    background-color: var(--background-color);
-    color: var(--text-color);
-    font-family: 'Arial', sans-serif;
+.login-box {
+    width: 400px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Main Container */
-main {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 10px;
-    margin: 5px;
-}
-
-/* Registration Form Styling */
-.registration-form {
-    max-width: 500px;
-    width: 100%;
-    padding: 30px;
-}
-
-.registration-form h1 {
-    font-size: 24px;
+.login-box h2 {
+    font-weight: 600;
     margin-bottom: 20px;
-    color: var(--primary-color);
-    text-align: center;
-    font-weight: 600;
 }
 
-/* Form Group Styling */
-.form-group label {
-    font-weight: bold;
-    margin-bottom: 5px;
-    color: var(--text-color);
+.login-box label {
+    font-weight: 500;
+    margin-bottom: 10px;
 }
 
-.form-group input {
+.login-box input[type="email"], .login-box input[type="password"] {
     width: 100%;
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    box-sizing: border-box;
+    padding: 10px;
     font-size: 16px;
-    transition: border-color 0.3s, box-shadow 0.3s;
+    border: 1px solid #ddd;
+    border-radius: 5px;
 }
 
-.form-group input:focus {
-    border-color: var(--secondary-color);
-    box-shadow: 0 0 5px rgba(40, 167, 69, 0.2);
-    /* Green shadow on focus */
-    outline: none;
-}
-
-/* Button Styling */
-.btn {
-
-    background-color: var(--primary-color);
+.login-box button[type="submit"] {
+    background: linear-gradient(90deg, #0d612d 0%, #128a36 50%, #10471e 100%);
     color: #fff;
-    padding: 12px;
     border: none;
-    border-radius: 6px;
-    cursor: pointer;
+    padding: 10px 20px;
     font-size: 16px;
+    border-radius: 5px;
+}
+
+.login-box button[type="submit"]:hover {
+    background: linear-gradient(90deg, #0d612d 0%, #42cc6b 50%, #10471e 100%);
+}
+
+.login-box a {
+    text-decoration: none;
+    color: #337ab7;
+}
+
+.login-box a:hover {
+    color: #23527c;
+}
+
+/* REISTRATION PAGE */
+/* styles.css */
+
+.registration-container {
+    height: 100vh;
+    background-color: #f9f9f9;
+    margin: 40px auto;
+}
+
+.registration-box {
+    width: 400px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.registration-box h2 {
     font-weight: 600;
-    transition: background-color 0.3s;
+    margin-bottom: 20px;
 }
 
-.btn:hover {
-    background-color: #222;
-    /* Slightly darker gray for hover effect */
+.registration-box label {
+    font-weight: 500;
+    margin-bottom: 10px;
 }
 
-.points {
-    display: flex
+.registration-box input[type="text"], 
+.registration-box input[type="email"], 
+.registration-box input[type="password"], 
+.registration-box select {
+    width: 100%;
+    padding: 7px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.registration-box button[type="submit"] {
+    background: linear-gradient(90deg, #0d612d 0%, #128a36 50%, #10471e 100%);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+.registration-box button[type="submit"]:hover {
+    background: linear-gradient(90deg, #0d612d 0%, #42cc6b 50%, #10471e 100%);
+}
+
+.registration-box a {
+    text-decoration: none;
+    color: #337ab7;
+}
+
+.registration-box a:hover {
+    color: #23527c;
+}
+
+.walletDetailsForm {
+    width: 300px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.walletDetailsForm h3 {
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+.btn-danger {
+    background: linear-gradient(90deg, #0d612d 0%, #128a36 50%, #10471e 100%);
+    color: #fff;
+    border: none;
+}
+
+.btn-primary {
+    background: linear-gradient(90deg, #337ab7 0%, #23527c 50%, #1a1d23 100%);
+    color: #fff;
+    border: none;
+}
+
+.text-secondary {
+    color: #337ab7;
+}
+
+.text-secondary:hover {
+    color: #23527c;
+}
+
+.hidden {
+    display: none;
+}
+
+.visible {
+    display: block;
+
 }

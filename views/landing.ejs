@@ -7,6 +7,7 @@
     <title>Ecopoint | Home</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="/styles/landing.css">
+    <link rel="icon" href="/images/EcoPoint.png" type="image/x-icon">
 </head>
 
 <body>
@@ -15,14 +16,14 @@
     <!-- Search Section -->
     <section id="search-section" class="search-section py-5 bg-light text-center">
         <div class="container">
-            <h3>Find Submissions</h3>
+            <h3>Check your Points</h3>
             <form action="/contributor/search" method="post" class="form-inline justify-content-center">
                 <input type="email" name="email" class="form-control mr-2" placeholder="Enter your email" required>
                 <button type="submit" class="btn btn-dark">Search</button>
             </form>
         </div>
         <div class="container">
-            <h3>Check History</h3>
+            <h3>Check your History</h3>
             <form action="/contributor/history" method="post" class="form-inline justify-content-center">
                 <input type="email" name="email" class="form-control mr-2" placeholder="Enter your email" required>
                 <button type="submit" class="btn btn-dark">History</button>
@@ -44,7 +45,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
-                    <img src="/images/recycling.jpg" alt="Recycling" class="img-fluid rounded shadow">
+                    <img src="/images/Ecopoint.png" alt="Recycling">
                 </div>
                 <div class="col-md-6">
                     <h2>About Ecopoint</h2>
@@ -67,7 +68,7 @@
                         <% manufacturers.forEach(manufacturer => { %>
                             <li class="list-group-item">
                                 <strong><%= manufacturer.name %></strong> 
-                                <strong>Threshold:</strong> - <strong> <%= manufacturer.paymentThreshold %></strong> 
+                                <strong>Threshold:</strong> - <strong> <%= manufacturer.paymentThreshold %></strong></strong> Points<strong></strong>
                             </li>
                         <% }) %>
                     </ul>
@@ -92,7 +93,7 @@
     <section id="contact" class="contact-section py-5 bg-light">
         <div class="container">
             <h2 class="text-center mb-4">Contact Us</h2>
-            <div class="row">4
+            <div class="row">
                 <div class="col-md-6">
                     <form action="#" method="POST">
                         <div class="form-group">
@@ -107,14 +108,8 @@
                             <label for="message">Message</label>
                             <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
                         </div>
-                        <button type="submit" class="btn btn-dark">Send Message</button>
+                        <button type="submit" class="btn">Send Message</button>
                     </form>
-                </div>
-                <div class="col-md-6">
-                    <h4>Our Address</h4>
-                    <p>123 Eco Street<br>Gandu, Lafia<br>Phone: (234) 908-1513-958</p>
-                    <h4>Email</h4>
-                    <p>support@ecopoints.com</p>
                 </div>
             </div>
         </div>

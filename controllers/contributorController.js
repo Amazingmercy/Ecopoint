@@ -41,10 +41,10 @@ const getProducts = async (req, res) => {
     }
 }
 
-const editProfile = async (req, res) => {
+const addWallet = async (req, res) => {
     const userId = req.params.id
 
-    const { bankName, accountNumber, accountName } = req.body;
+    const { walletAddress} = req.body;
 
     try {
 
@@ -52,10 +52,8 @@ const editProfile = async (req, res) => {
             { _id: userId, role: { $in: ['contributor', 'collector'] } },
             {
                 $set: {
-                    bankDetails: {
-                        bankName,
-                        accountNumber,
-                        accountName
+                    walletDetails: {
+                        walletAddress
                     }
                 }
             },
@@ -87,10 +85,10 @@ const editProfile = async (req, res) => {
                 collectors,
                 error: "",
                 newUser,
-                message: "Bank details updated successfully!"
+                message: "Wallet address added successfully!"
             });
         } else {
-            res.render('collector/dashboard', { message: 'Bank details updated successfully!', token , newUser});
+            res.render('collector/dashboard', { message: 'Wallet address added successfully!', token , newUser});
         }
     } catch (error) {
         console.log(error)
@@ -173,7 +171,7 @@ const getHistoryContributor = async (req, res) => {
 
 module.exports = {
     getProducts,
-    editProfile,
+    addWallet,
     searchSubmissions,
     getHistoryContributor
 }

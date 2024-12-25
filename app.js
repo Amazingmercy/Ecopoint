@@ -1,7 +1,12 @@
 require('dotenv').config()
 const express = require('express')
-const connectDB = require('./DB/config')
+const connectDB = require('./CONFIG/dataBase')
 const DB_URI = process.env.MONGO_URI
+const cookieSession = require('cookie-session');
+
+
+
+
 
 const cookieParser = require('cookie-parser');
 const authenticate = require('./middlewares/auth')
@@ -26,6 +31,10 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('static'));
+app.use(cookieSession({
+  keys: [process.env.JWT_SECRET_KEY],
+  maxAge: 24 * 60 * 60 * 1000 // 24 hours
+}));
 
 
 app.use(authRoutes)
@@ -35,7 +44,7 @@ app.use('/collector', authenticate, collectorRoute)
 app.use(errorHandler)
 
 
-const port = 4999 || process.env.PORT
+const port = 9999 || process.env.PORT
 const start = async () => {
     try{
         await connectDB(DB_URI)

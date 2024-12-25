@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ecopoint | History</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/styles/landing.css">
-    <link rel="stylesheet" href="/styles/partials.css">
+    <link rel="stylesheet" href="/styles/contributor.css">
+    <link rel="icon" href="/images/EcoPoint.png" type="image/x-icon">
 </head>
 <body>
     <header class="header">
@@ -15,43 +15,45 @@
           <a href="/">Home</a>
         </nav>
       </header>
-    <h1>Submission History</h1>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Submission History</h1>
 
-    <% if (submissions.length > 0) { %>
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>Timestamp</th>
-                    <th>Collector Name</th>
-                    <th>Product Name</th>
-                    <th>Points</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% submissions.forEach(submission => { %>
+        <% if (submissions.length > 0) { %>
+            <table class="table table-striped table-bordered">
+                <thead>
                     <tr>
-                        <td><%= new Date(submission.submission_date).toLocaleString() %></td>
-                        <td><%= submission.collector_id.name %></td>
-                        <td><%= submission.productName %></td>
-                        <td><%= submission.productPoint %></td>
+                        <th>Timestamp</th>
+                        <th>Collector Name</th>
+                        <th>Product Name</th>
+                        <th>Points</th>
                     </tr>
-                <% }) %>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    <% submissions.forEach(submission => { %>
+                        <tr>
+                            <td><%= new Date(submission.submission_date).toLocaleString() %></td>
+                            <td><%= submission.collector_id.name %></td>
+                            <td><%= submission.productName %></td>
+                            <td><%= submission.productPoint %></td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
 
-        <!-- Pagination Controls -->
-        <div>
-            <% if (currentPage > 1) { %>
-                <a href="?page=<%= currentPage - 1 %>">Previous</a>
-            <% } %>
-            Page <%= currentPage %> of <%= totalPages %>
-            <% if (currentPage < totalPages) { %>
-                <a href="?page=<%= currentPage + 1 %>">Next</a>
-            <% } %>
-        </div>
-    <% } else { %>
-        <p style="text-align: center;">No submissions found.</p>
-    <% } %>
+            <!-- Pagination Controls -->
+            <div class="pagination-container">
+                <% if (currentPage > 1) { %>
+                    <a href="?page=<%= currentPage - 1 %>" class="pagination-link">Previous</a>
+                <% } %>
+                Page <%= currentPage %> of <%= totalPages %>
+                <% if (currentPage < totalPages) { %>
+                    <a href="?page=<%= currentPage + 1 %>" class="pagination-link">Next</a>
+                <% } %>
+            </div>
+        <% } else { %>
+            <p class="text-center mt-4">No submissions found.</p>
+        <% } %>
+    </div>
 
     <%- include('../partials/footer') %>
 </body>

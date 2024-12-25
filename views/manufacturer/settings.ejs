@@ -4,11 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Set Payment Threshold</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/styles/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/styles/manufacturer.css">
+    <link rel="icon" href="/images/EcoPoint.png" type="image/x-icon">
 </head>
 <body>
-    <%- include('../partials/navbar') %>
+    <!-- <%- include('../partials/header') %> -->
+    <%- include('../partials/sidebar', { currentPage: 'settings' }) %>
 
     <div class="wrapper">
     <div class="container mt-5">
@@ -27,7 +30,7 @@
                 <label for="threshold">Payment Threshold (Points)</label>
                 <input type="number" class="form-control" id="threshold" name="threshold" value="<%= threshold %>" required>
             </div>
-            <button type="submit" class="btn btn-primary">Set Threshold</button>
+            <button type="submit" class="btn btn-dark">Set Threshold</button>
         </form>
     </div>
 </div>

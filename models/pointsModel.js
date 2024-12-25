@@ -4,7 +4,7 @@ const { Schema } = mongoose;
 const pointsSchema = new Schema({
     user: {
         type: Schema.Types.ObjectId,
-        ref: 'User',  // Reference to the contributor (user) who is accumulating points
+        ref: 'User',  // Reference to the contributor or collector (user) who is accumulating points
         required: true
     },
     manufacturer: {

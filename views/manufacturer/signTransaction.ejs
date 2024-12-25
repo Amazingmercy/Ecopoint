@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Sign Transaction</title>
+  <link rel="icon" href="/images/EcoPoint.png" type="image/x-icon">
+  <style>
+    #loading {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+  </style>
+</head>
+<body>
+  <div id="loading">
+    <p>Signing transaction...</p>
+  </div>
+  <script>
+    window.onload = async function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const transactionResponse = urlParams.get('transaction');
+
+      const signedTransaction = await window.solana.signTransaction({
+        transaction: transactionResponse.serialize().toString('hex'),
+        partialSign: false,
+      });
+
+      const signatureResponse = await axios.post('/manufacturer/signature', {
+        signedTransaction: signedTransaction.serialize().toString('hex'),
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      console.log('Transaction Signature:', signatureResponse.data);
+      // Redirect to success page
+      window.location.href = '/transaction-success';
+    };
+  </script>
+</body>
+</html>

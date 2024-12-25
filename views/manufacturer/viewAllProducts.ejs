@@ -6,11 +6,12 @@
     <title>Products | Ecopoints</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/styles/styles.css">
+    <link rel="stylesheet" href="/styles/manufacturer.css">
+    <link rel="icon" href="/images/EcoPoint.png" type="image/x-icon">
 </head>
 <body>
     <div class="wrapper">
-        <%- include('../partials/navbar') %>
+        <%- include('../partials/sidebar', { currentPage: 'viewAllProducts' }) %>
         <div class="main-content">
             <% if (error) { %>
                 <div class="error"><span><%= error %></span> <i class="fas fa-times" onclick="this.parentElement.style.display = 'none';"></i></div>
@@ -20,7 +21,7 @@
                 <div class="message"><span><%= message %></span> <i class="fas fa-times" onclick="this.parentElement.style.display = 'none';"></i></div>
             <% } %>
 
-            <div class="container mt-5">
+            <div class="container mt-5 product-container">
                 <section class="display-product-table">
                     <table class="table table-striped">
                         <thead>
@@ -65,7 +66,7 @@
                             <input type="number" min="0" class="form-control" required name="points" id="update_p_points-<%= product._id %>" value="<%= product.points %>">
                             <input type="text" class="form-control" required name="category" id="update_p_category-<%= product._id %>" value="<%= product.category %>">
                             <input type="file" class="form-control-file" name="productImage" accept="image/png, image/jpg, image/jpeg">
-                            <input type="submit" value="Update the product" class="btn btn-primary mt-3">
+                            <input type="submit" value="Update the product" class="btn btn-success mt-3">
                             <input type="button" value="Cancel" class="btn btn-secondary" onclick="hideEditForm('<%= product._id %>');">
                         </form>
                     </section>
@@ -82,7 +83,7 @@
                             <input type="hidden" name="userId" value="<%= user._id %>" id="update_p_id-<%= product._id %>">
                             <input type="text" class="form-control" name="productName" value="<%= product.productName %>" id="productName-<%= product._id %>">
                             <input type="number" min="1" class="form-control" name="points" value="<%= product.points %>" id="points-<%= product._id %>">
-                            <input type="submit" value="Generate QRcode" class="btn btn-primary mt-3">
+                            <input type="submit" value="Generate QRcode" class="btn btn-success mt-3">
                             <input type="button" value="Cancel" class="btn btn-secondary" onclick="hideQrForm('<%= product._id %>');">
                         </form>
                     </section>            

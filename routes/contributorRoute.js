@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const { getProducts, editProfile, searchSubmissions, getHistoryContributor } = require('../controllers/contributorController')
+const { getProducts, addWallet, searchSubmissions, getHistoryContributor } = require('../controllers/contributorController')
 
 
 router.post('/getProducts', getProducts)
-router.post('/bankdetails/:id', editProfile)
+router.post('/walletDetails/:id', addWallet)
 router.post('/search', searchSubmissions)
 router.post('/history', getHistoryContributor)
 
